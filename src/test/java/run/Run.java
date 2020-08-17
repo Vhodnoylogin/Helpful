@@ -14,13 +14,12 @@ public class Run {
                 StreamBuilder
                         .collectionToStream(in)
                         .filter(x -> x % 4 != 0)
-                        .map(x -> x * 10 + x)
+                        //.map(x -> x * 10 + x)
                         .map(x -> x.toString() + "qql" + x.toString())
                         .filter(x -> x.contains("2") || x.contains("5") || x.contains("7"))
                         .map(String::toUpperCase)
                         .map(x -> x.replace("QQL", ""))
                         .map(Integer::valueOf)
-                        //.forEach(System.out::println);
                         .reduce(7000000, Integer::sum);
         System.out.println(out);
     }
