@@ -11,21 +11,12 @@ import java.util.function.Supplier;
 public abstract class StreamNode<IN, RES, OUT, S extends StreamWithException<IN>>
         implements StreamWithException<OUT> {
     protected S prevNode;
-    //protected FunctionWithException<IN, RES> func;
-
-//    protected RES accept(IN data) {
-//        return this.func.accept(data);
-//    }
 
     protected abstract RES accept(IN data);
 
     protected void setPrevNode(S prevNode) {
         this.prevNode = prevNode;
     }
-
-//    protected void setFunc(FunctionWithException<IN, RES> func) {
-//        this.func = func;
-//    }
 
     protected abstract Collection<OUT> getData(Collection<IN> data);
 
