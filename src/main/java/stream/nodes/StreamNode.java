@@ -3,32 +3,34 @@ package stream.nodes;
 import exceptioned.consumers.ConsumerWithException;
 import exceptioned.functions.FunctionWithException;
 import exceptioned.functions.FunctionWithException2Params;
-import stream.StreamExceptioned;
+import stream.StreamWithException;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public abstract class StreamNode<IN, RES, OUT, S extends StreamExceptioned<IN>>
-        implements StreamExceptioned<OUT> {
+public abstract class StreamNode<IN, RES, OUT, S extends StreamWithException<IN>>
+        implements StreamWithException<OUT> {
     protected S prevNode;
-    protected FunctionWithException<IN, RES> func;
+    //protected FunctionWithException<IN, RES> func;
 
-    protected RES accept(IN data) {
-        return this.func.accept(data);
-    }
+//    protected RES accept(IN data) {
+//        return this.func.accept(data);
+//    }
+
+    protected abstract RES accept(IN data);
 
     protected void setPrevNode(S prevNode) {
         this.prevNode = prevNode;
     }
 
-    protected void setFunc(FunctionWithException<IN, RES> func) {
-        this.func = func;
-    }
+//    protected void setFunc(FunctionWithException<IN, RES> func) {
+//        this.func = func;
+//    }
 
     protected abstract Collection<OUT> getData(Collection<IN> data);
 
     @Override
-    public final StreamExceptioned<OUT> filter(FunctionWithException<OUT, Boolean> filter) {
+    public final StreamWithException<OUT> filter(FunctionWithException<OUT, Boolean> filter) {
         StreamNodeFilter<OUT> streamFilter = new StreamNodeFilter<>();
         streamFilter.setFunc(filter);
         streamFilter.setPrevNode(this);
@@ -36,11 +38,19 @@ public abstract class StreamNode<IN, RES, OUT, S extends StreamExceptioned<IN>>
     }
 
     @Override
-    public final <R> StreamExceptioned<R> map(FunctionWithException<OUT, R> mapper) {
-        StreamNodeMap<OUT, R> streamMap = new StreamNodeMap<>();
+    public final <R> StreamWithException<R> map(FunctionWithException<OUT, R> mapper) {
+        StreamNodeMapper<OUT, R> streamMap = new StreamNodeMapper<>();
         streamMap.setFunc(mapper);
         streamMap.setPrevNode(this);
         return streamMap;
+    }
+
+    @Override
+    public final StreamWithException<OUT> sort(FunctionWithException2Params<OUT, OUT, Compare> sorter) {
+        StreamNodeSorter<OUT> streamSort = new StreamNodeSorter<>();
+        streamSort.setFunc(sorter);
+        streamSort.setPrevNode(this);
+        return streamSort;
     }
 
     @Override
