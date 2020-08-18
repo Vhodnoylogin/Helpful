@@ -6,7 +6,7 @@ import stream.StreamWithException;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class StreamNodeFilter<T> extends StreamNode<T, Boolean, T, StreamWithException<T>> {
+public class StreamNodeFilter<T> extends StreamNode<T, T, StreamWithException<T>> {
     protected FunctionWithException<T, Boolean> func;
 
     protected void setFunc(FunctionWithException<T, Boolean> func) {
@@ -14,16 +14,10 @@ public class StreamNodeFilter<T> extends StreamNode<T, Boolean, T, StreamWithExc
     }
 
     @Override
-    protected Boolean accept(T data) {
-        return this.func.accept(data);
-    }
-
-
-    @Override
     protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
         Collection<T> out = getNewCollection(collection);
         for (T it : data) {
-            if (this.accept(it)) {
+            if (this.func.accept(it)) {
                 out.add(it);
             }
         }

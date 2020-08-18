@@ -6,7 +6,7 @@ import stream.StreamWithException;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class StreamNodeMapper<T, R> extends StreamNode<T, R, R, StreamWithException<T>> {
+public class StreamNodeMapper<T, R> extends StreamNode<T, R, StreamWithException<T>> {
     protected FunctionWithException<T, R> func;
 
     protected void setFunc(FunctionWithException<T, R> func) {
@@ -14,15 +14,10 @@ public class StreamNodeMapper<T, R> extends StreamNode<T, R, R, StreamWithExcept
     }
 
     @Override
-    protected R accept(T data) {
-        return this.func.accept(data);
-    }
-
-    @Override
     protected Collection<R> getData(Supplier<Collection<R>> collection, Collection<T> data) {
         Collection<R> out = getNewCollection(collection);
         for (T it : data) {
-            out.add(this.accept(it));
+            out.add(this.func.accept(it));
         }
         return out;
     }

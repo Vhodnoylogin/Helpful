@@ -10,11 +10,9 @@ import stream.helper.StreamDataCollection;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public abstract class StreamNode<IN, RES, OUT, S extends StreamWithException<IN>>
+public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
         implements StreamWithException<OUT> {
     protected S prevNode;
-
-    protected abstract RES accept(IN data);
 
     protected void setPrevNode(S prevNode) {
         this.prevNode = prevNode;
