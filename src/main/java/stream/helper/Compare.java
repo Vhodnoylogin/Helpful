@@ -1,4 +1,4 @@
-package stream.nodes;
+package stream.helper;
 
 public enum Compare {
     LARGER,

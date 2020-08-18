@@ -1,6 +1,6 @@
 package run;
 
-import stream.StreamBuilder;
+import stream.builder.StreamBuilder;
 
 import java.util.Arrays;
 import java.util.List;

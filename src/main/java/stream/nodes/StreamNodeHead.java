@@ -1,7 +1,6 @@
 package stream.nodes;
 
 import stream.StreamWithException;
-import stream.data.StreamDataCollection;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -20,13 +19,14 @@ public class StreamNodeHead<T> extends StreamNode<T, T, T, StreamWithException<T
     }
 
     @Override
-    protected Collection<T> getData(Collection<T> data) {
+    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
         return data;
     }
 
     @Override
-    public Collection<T> collect(Supplier<T> collection) {
-        StreamDataCollection<T> out = new StreamDataCollection<>(this.data);
-        return this.getData(out);
+    public Collection<T> collect(Supplier<Collection<T>> collection) {
+        Collection<T> out = getNewCollection(collection);
+        out.addAll(this.getData(collection, this.data));
+        return out;
     }
 }

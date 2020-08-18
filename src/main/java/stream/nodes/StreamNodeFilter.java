@@ -2,9 +2,9 @@ package stream.nodes;
 
 import exceptioned.functions.FunctionWithException;
 import stream.StreamWithException;
-import stream.data.StreamDataCollection;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class StreamNodeFilter<T> extends StreamNode<T, Boolean, T, StreamWithException<T>> {
     protected FunctionWithException<T, Boolean> func;
@@ -18,9 +18,10 @@ public class StreamNodeFilter<T> extends StreamNode<T, Boolean, T, StreamWithExc
         return this.func.accept(data);
     }
 
+
     @Override
-    protected Collection<T> getData(Collection<T> data) {
-        Collection<T> out = new StreamDataCollection<>();
+    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
+        Collection<T> out = getNewCollection(collection);
         for (T it : data) {
             if (this.accept(it)) {
                 out.add(it);

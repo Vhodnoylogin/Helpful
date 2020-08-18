@@ -3,7 +3,7 @@ package stream;
 import exceptioned.consumers.ConsumerWithException;
 import exceptioned.functions.FunctionWithException;
 import exceptioned.functions.FunctionWithException2Params;
-import stream.nodes.Compare;
+import stream.helper.Compare;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -19,5 +19,6 @@ public interface StreamWithException<T> {
 
     void forEach(ConsumerWithException<T> each);
 
-    Collection<T> collect(Supplier<T> collection);
+    //<R extends Collection<T>> R collect(Supplier<R> collection);
+    Collection<T> collect(Supplier<Collection<T>> collection);
 }

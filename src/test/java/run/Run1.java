@@ -1,7 +1,7 @@
 package run;
 
-import stream.StreamBuilder;
-import stream.nodes.Compare;
+import stream.builder.StreamBuilder;
+import stream.helper.Compare;
 
 import java.util.Arrays;
 import java.util.List;

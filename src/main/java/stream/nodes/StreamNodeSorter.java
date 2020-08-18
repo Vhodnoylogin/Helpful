@@ -2,9 +2,11 @@ package stream.nodes;
 
 import exceptioned.functions.FunctionWithException2Params;
 import stream.StreamWithException;
-import stream.data.StreamDataCollection;
+import stream.helper.Compare;
+import stream.helper.StreamDataCollection;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class StreamNodeSorter<T> extends StreamNode<T, Compare, T, StreamWithException<T>> {
     protected FunctionWithException2Params<T, T, Compare> func;
@@ -20,13 +22,14 @@ public class StreamNodeSorter<T> extends StreamNode<T, Compare, T, StreamWithExc
     }
 
     @Override
-    protected Collection<T> getData(Collection<T> data) {
-        return this.sort(data);
+    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
+        return this.sort(collection, data);
     }
+
 
     //  переделать
     // тут какая-то затычка
-    protected Collection<T> sort(Collection<T> data) {
+    protected Collection<T> sort(Supplier<Collection<T>> collection, Collection<T> data) {
         Collection<T> out = new StreamDataCollection<>();
         if (data.isEmpty()) return data;
         for (T datum : data) {
