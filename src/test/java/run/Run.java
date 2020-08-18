@@ -10,17 +10,20 @@ public class Run {
         System.out.println("TEST");
 
         List<Integer> in = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-        Integer out =
-                StreamBuilder
-                        .collectionToStream(in)
-                        .filter(x -> x % 4 != 0)
-                        //.map(x -> x * 10 + x)
-                        .map(x -> x.toString() + "qql" + x.toString())
-                        .filter(x -> x.contains("2") || x.contains("5") || x.contains("7"))
-                        .map(String::toUpperCase)
-                        .map(x -> x.replace("QQL", ""))
-                        .map(Integer::valueOf)
-                        .reduce(7000000, Integer::sum);
-        System.out.println(out);
+        try {
+            Integer out = StreamBuilder
+                    .collectionToStream(in)
+                    .filter(x -> x % 4 != 0)
+                    //.map(x -> x * 10 + x)
+                    .map(x -> x.toString() + "qql" + x.toString())
+                    .filter(x -> x.contains("2") || x.contains("5") || x.contains("7"))
+                    .map(String::toUpperCase)
+                    .map(x -> x.replace("QQL", ""))
+                    .map(Integer::valueOf)
+                    .reduce(7000000, Integer::sum);
+            System.out.println(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

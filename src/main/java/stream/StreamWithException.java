@@ -15,10 +15,11 @@ public interface StreamWithException<T> {
 
     StreamWithException<T> sort(FunctionWithException2Params<T, T, Compare> sorter);
 
-    <R> R reduce(R base, FunctionWithException2Params<R, T, R> reducer);
+    StreamWithException<T> evaluate() throws Exception;
 
-    void forEach(ConsumerWithException<T> each);
+    <R> R reduce(R base, FunctionWithException2Params<R, T, R> reducer) throws Exception;
 
-    //<R extends Collection<T>> R collect(Supplier<R> collection);
-    Collection<T> collect(Supplier<Collection<T>> collection);
+    void forEach(ConsumerWithException<T> each) throws Exception;
+
+    Collection<T> collect(Supplier<Collection<T>> collection) throws Exception;
 }

@@ -27,8 +27,12 @@ public class StreamNodeSorter<T> extends StreamNode<T, T, StreamWithException<T>
         if (data.isEmpty()) return data;
         for (T datum : data) {
             for (T t : data) {
-                if (this.func.accept(datum, t) == Compare.LESS) {
-                    out.add(t);
+                try {
+                    if (this.func.accept(datum, t) == Compare.LESS) {
+                        out.add(t);
+                    }
+                } catch (Exception e) {
+                    this.errorsList.add(e);
                 }
             }
         }

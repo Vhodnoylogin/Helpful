@@ -17,8 +17,12 @@ public class StreamNodeFilter<T> extends StreamNode<T, T, StreamWithException<T>
     protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
         Collection<T> out = getNewCollection(collection);
         for (T it : data) {
-            if (this.func.accept(it)) {
-                out.add(it);
+            try {
+                if (this.func.accept(it)) {
+                    out.add(it);
+                }
+            } catch (Exception e) {
+                this.errorsList.add(e);
             }
         }
         return out;

@@ -17,7 +17,11 @@ public class StreamNodeMapper<T, R> extends StreamNode<T, R, StreamWithException
     protected Collection<R> getData(Supplier<Collection<R>> collection, Collection<T> data) {
         Collection<R> out = getNewCollection(collection);
         for (T it : data) {
-            out.add(this.func.accept(it));
+            try {
+                out.add(this.func.accept(it));
+            } catch (Exception e) {
+                this.errorsList.add(e);
+            }
         }
         return out;
     }
