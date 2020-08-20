@@ -3,7 +3,7 @@ package stream;
 import exceptioned.consumers.ConsumerWithException;
 import exceptioned.functions.FunctionWithException;
 import exceptioned.functions.FunctionWithException2Params;
-import stream.helper.Compare;
+import stream.helper.CompareFunction;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -13,7 +13,7 @@ public interface StreamWithException<T> {
 
     <R> StreamWithException<R> map(FunctionWithException<T, R> mapper);
 
-    StreamWithException<T> sort(FunctionWithException2Params<T, T, Compare> sorter);
+    StreamWithException<T> sort(CompareFunction<T> sorter);
 
     StreamWithException<T> evaluate() throws Exception;
 
@@ -21,5 +21,6 @@ public interface StreamWithException<T> {
 
     void forEach(ConsumerWithException<T> each) throws Exception;
 
-    Collection<T> collect(Supplier<Collection<T>> collection) throws Exception;
+    //Collection<T> collect(Supplier<Collection<T>> collection) throws Exception;
+    <L extends Collection<T>> L collect(Supplier<L> genCollection) throws Exception;
 }

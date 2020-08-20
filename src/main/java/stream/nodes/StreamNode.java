@@ -4,8 +4,7 @@ import exceptioned.consumers.ConsumerWithException;
 import exceptioned.functions.FunctionWithException;
 import exceptioned.functions.FunctionWithException2Params;
 import stream.StreamWithException;
-import stream.helper.Compare;
-import stream.helper.StreamDataCollection;
+import stream.helper.CompareFunction;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +14,7 @@ public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
         implements StreamWithException<OUT> {
     protected S prevNode;
     protected List<Exception> errorsList;
+    protected Supplier<? extends Collection<OUT>> genCollection;
 
     protected void setPrevNode(S prevNode) {
         this.prevNode = prevNode;
@@ -24,14 +24,19 @@ public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
         this.errorsList = errorsList;
     }
 
-    protected static <R> Collection<R> getNewCollection(Supplier<Collection<R>> collection) {
-        return (null == collection ? StreamDataCollection.<R>newList() : collection).get();
-    }
+//    protected static <R> Collection<R> getNewCollection(Supplier<Collection<R>> collection) {
+//        return (null == collection ? StreamDataCollection.<R>newList() : collection).get();
+//    }
 
-    protected abstract Collection<OUT> getData(
-            Supplier<Collection<OUT>> collection
-            , Collection<IN> data
-    ) throws Exception;
+    //    protected abstract Collection<OUT> getData(
+//            Supplier<Collection<OUT>> collection
+//            , Collection<IN> data
+//    ) throws Exception;
+    protected abstract <LIN extends Collection<IN>, LOUT extends Collection<OUT>>
+    LOUT getData(
+            Supplier<LOUT> genCollection
+            , LIN data
+    );
 
     @Override
     public final StreamWithException<OUT> filter(FunctionWithException<OUT, Boolean> filter) {
@@ -52,7 +57,7 @@ public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
     }
 
     @Override
-    public final StreamWithException<OUT> sort(FunctionWithException2Params<OUT, OUT, Compare> sorter) {
+    public final StreamWithException<OUT> sort(CompareFunction<OUT> sorter) {
         StreamNodeSorter<OUT> streamSort = new StreamNodeSorter<>();
         streamSort.setFunc(sorter);
         streamSort.setPrevNode(this);
@@ -74,15 +79,29 @@ public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
 
     }
 
+//    @Override
+//    public Collection<OUT> collect(Supplier<Collection<OUT>> collection) throws Exception {
+//        try {
+//            Collection<OUT> out = getNewCollection(collection);
+//            out.addAll(this.getData(
+//                    collection
+//                    , this.prevNode.collect(null)
+//            ));
+//            return out;
+//        } catch (Exception e) {
+//            this.errorsList.forEach(e::addSuppressed);
+//            throw e;
+//        }
+//    }
+
+
     @Override
-    public Collection<OUT> collect(Supplier<Collection<OUT>> collection) throws Exception {
+    public <L extends Collection<OUT>> L collect(Supplier<L> genCollection) throws Exception {
         try {
-            Collection<OUT> out = getNewCollection(collection);
-            out.addAll(this.getData(
-                    collection
+            return this.getData(
+                    genCollection
                     , this.prevNode.collect(null)
-            ));
-            return out;
+            );
         } catch (Exception e) {
             this.errorsList.forEach(e::addSuppressed);
             throw e;
@@ -114,5 +133,7 @@ public abstract class StreamNode<IN, OUT, S extends StreamWithException<IN>>
         }
     }
 
-    //protected void
+//    protected <L extends Collection<OUT>> Supplier<L> getGen(Supplier<L> gen){
+//        return (null == gen) ? this.genCollection : gen;
+//    }
 }

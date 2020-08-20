@@ -14,8 +14,8 @@ public class StreamNodeFilter<T> extends StreamNode<T, T, StreamWithException<T>
     }
 
     @Override
-    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
-        Collection<T> out = getNewCollection(collection);
+    protected <LIN extends Collection<T>, LOUT extends Collection<T>> LOUT getData(Supplier<LOUT> genCollection, LIN data) {
+        LOUT out = genCollection.get();
         for (T it : data) {
             try {
                 if (this.func.accept(it)) {
@@ -27,4 +27,19 @@ public class StreamNodeFilter<T> extends StreamNode<T, T, StreamWithException<T>
         }
         return out;
     }
+
+//    @Override
+//    protected <LOUT extends Collection<T>> LOUT getData(Supplier<LOUT> collection, Collection<T> data) {
+//        LOUT out = collection.get();
+//        for (T it : data) {
+//            try {
+//                if (this.func.accept(it)) {
+//                    out.add(it);
+//                }
+//            } catch (Exception e) {
+//                this.errorsList.add(e);
+//            }
+//        }
+//        return out;
+//    }
 }

@@ -16,14 +16,21 @@ public class StreamNodeHeader<T> extends StreamNode<T, T, StreamWithException<T>
     }
 
     @Override
-    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
-        return data;
-    }
-
-    @Override
-    public Collection<T> collect(Supplier<Collection<T>> collection) {
-        Collection<T> out = getNewCollection(collection);
-        out.addAll(this.getData(collection, this.data));
+    protected <LIN extends Collection<T>, LOUT extends Collection<T>> LOUT getData(Supplier<LOUT> genCollection, LIN data) {
+        LOUT out = genCollection.get();
+        out.addAll(data);
         return out;
     }
+
+    //    @Override
+//    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
+//        return data;
+//    }
+
+//    @Override
+//    public Collection<T> collect(Supplier<Collection<T>> collection) {
+//        Collection<T> out = getNewCollection(collection);
+//        out.addAll(this.getData(collection, this.data));
+//        return out;
+//    }
 }
