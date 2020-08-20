@@ -1,6 +1,6 @@
 package run;
 
-import stream.builder.StreamBuilder;
+import helpfull.stream.builder.StreamBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;

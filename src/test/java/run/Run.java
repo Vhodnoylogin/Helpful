@@ -1,6 +1,6 @@
 package run;
 
-import stream.builder.StreamBuilder;
+import helpfull.stream.builder.StreamBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Run {
             Integer out = StreamBuilder
                     .collectionToStream(in)
                     .filter(x -> x % 4 != 0)
-                    //.map(x -> x * 10 + x)
+                    .map(x -> x * 10 + x)
                     .map(x -> x.toString() + "qql" + x.toString())
                     .filter(x -> x.contains("2") || x.contains("5") || x.contains("7"))
                     .map(String::toUpperCase)
