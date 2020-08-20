@@ -2,6 +2,7 @@ package run;
 
 import stream.builder.StreamBuilder;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,9 +14,11 @@ public class Run1 {
             StreamBuilder
                     .collectionToStream(in)
                     .filter(x -> x % 2 == 0)
+                    .ifNoExceptions()
                     .filter(x -> {
-                        throw new Exception();
+                        throw new IOException();
                     })
+                    //.ifNoExceptions()
                     //.sort((x, y) -> x <= y ? Compare.LESS : Compare.LARGER)
                     .forEach(System.out::println);
         } catch (Exception e) {

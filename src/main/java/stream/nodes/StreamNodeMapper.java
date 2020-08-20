@@ -1,12 +1,12 @@
 package stream.nodes;
 
 import exceptioned.functions.FunctionWithException;
-import stream.StreamWithException;
+import stream.interfaces.StreamNodeCoalesced;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class StreamNodeMapper<T, R> extends StreamNode<T, R, StreamWithException<T>> {
+public class StreamNodeMapper<T, R> extends StreamNode<T, R, StreamNodeCoalesced<T>> {
     protected FunctionWithException<T, R> func;
 
     protected void setFunc(FunctionWithException<T, R> func) {
@@ -25,17 +25,4 @@ public class StreamNodeMapper<T, R> extends StreamNode<T, R, StreamWithException
         }
         return out;
     }
-
-//    @Override
-//    protected Collection<R> getData(Supplier<Collection<R>> collection, Collection<T> data) {
-//        Collection<R> out = getNewCollection(collection);
-//        for (T it : data) {
-//            try {
-//                out.add(this.func.accept(it));
-//            } catch (Exception e) {
-//                this.errorsList.add(e);
-//            }
-//        }
-//        return out;
-//    }
 }

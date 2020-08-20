@@ -1,12 +1,12 @@
 package stream.nodes;
 
-import stream.StreamWithException;
 import stream.helper.StreamDataCollection;
+import stream.interfaces.StreamNodeCoalesced;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class StreamNodeHeader<T> extends StreamNode<T, T, StreamWithException<T>> {
+public class StreamNodeHeader<T> extends StreamNode<T, T, StreamNodeCoalesced<T>> {
     protected Collection<T> data;
 
     public StreamNodeHeader<T> setData(Collection<T> data) {
@@ -22,15 +22,8 @@ public class StreamNodeHeader<T> extends StreamNode<T, T, StreamWithException<T>
         return out;
     }
 
-    //    @Override
-//    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
-//        return data;
-//    }
-
-//    @Override
-//    public Collection<T> collect(Supplier<Collection<T>> collection) {
-//        Collection<T> out = getNewCollection(collection);
-//        out.addAll(this.getData(collection, this.data));
-//        return out;
-//    }
+    @Override
+    public <LOUT extends Collection<T>> LOUT getDataCollection(Supplier<LOUT> genCollection) {
+        return this.getData(genCollection, this.data);
+    }
 }

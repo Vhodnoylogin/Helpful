@@ -1,12 +1,12 @@
 package stream.nodes;
 
-import stream.StreamWithException;
 import stream.helper.CompareFunction;
+import stream.interfaces.StreamNodeCoalesced;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public class StreamNodeSorter<T> extends StreamNode<T, T, StreamWithException<T>> {
+public class StreamNodeSorter<T> extends StreamNode<T, T, StreamNodeCoalesced<T>> {
     protected CompareFunction<T> func;
 
     protected void setFunc(CompareFunction<T> func) {
@@ -17,12 +17,6 @@ public class StreamNodeSorter<T> extends StreamNode<T, T, StreamWithException<T>
     protected <LIN extends Collection<T>, LOUT extends Collection<T>> LOUT getData(Supplier<LOUT> genCollection, LIN data) {
         return this.sort(genCollection, data);
     }
-
-//    @Override
-//    protected Collection<T> getData(Supplier<Collection<T>> collection, Collection<T> data) {
-//        return this.sort(collection, data);
-//    }
-
 
     //  переделать
     // тут какая-то затычка

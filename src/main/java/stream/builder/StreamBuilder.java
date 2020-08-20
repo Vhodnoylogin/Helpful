@@ -1,6 +1,6 @@
 package stream.builder;
 
-import stream.StreamWithException;
+import stream.interfaces.StreamWithException;
 import stream.nodes.StreamNodeHeader;
 
 import java.util.ArrayList;
