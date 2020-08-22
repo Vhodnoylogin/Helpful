@@ -5,12 +5,14 @@ import helpfull.exceptioned.functions.FunctionWithException3Params;
 import helpfull.simplification.CompareFunction;
 
 public class TreeNode<T> implements TreeNodeInterface<T> {
-    TreeNodeInterface<T> left, right;
+    //    TreeNodeInterface<T> parent;
+//    TreeNodeInterface<T> left, right;
+    TreeNode<T> parent;
+    TreeNode<T> left, right;
+    boolean removed = false;
     T data;
-    boolean removed;
 
     public TreeNode() {
-        this.removed = false;
     }
 
     @Override
@@ -24,6 +26,20 @@ public class TreeNode<T> implements TreeNodeInterface<T> {
     }
 
     @Override
+    public TreeNodeInterface<T> getParent() {
+        return this.parent;
+    }
+
+    //    @Override
+//    public void setParent(TreeNodeInterface<T> parent) {
+//        this.parent = parent;
+//    }
+    @Override
+    public void setParent(TreeNodeInterface<T> parent) {
+
+    }
+
+    @Override
     public TreeNodeInterface<T> getRight() {
         return this.right;
     }
@@ -32,6 +48,7 @@ public class TreeNode<T> implements TreeNodeInterface<T> {
     public void setRight(T data) {
         this.right.setData(data);
     }
+
 
     @Override
     public T getData() {
@@ -42,6 +59,10 @@ public class TreeNode<T> implements TreeNodeInterface<T> {
     public void setData(T data) {
         this.left = new TreeNode<>();
         this.right = new TreeNode<>();
+
+        this.left.setParent(this);
+        this.right.setParent(this);
+
         this.data = data;
     }
 

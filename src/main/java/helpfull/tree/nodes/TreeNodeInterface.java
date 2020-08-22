@@ -5,13 +5,17 @@ import helpfull.exceptioned.functions.FunctionWithException3Params;
 import helpfull.simplification.CompareFunction;
 
 public interface TreeNodeInterface<T> {
-    TreeNodeInterface<T> getLeft();
-
     void setLeft(T data);
+
+    void setRight(T data);
+
+    TreeNodeInterface<T> getParent();
+
+    TreeNodeInterface<T> getLeft();
 
     TreeNodeInterface<T> getRight();
 
-    void setRight(T data);
+    void setParent(TreeNodeInterface<T> parent);
 
     T getData();
 

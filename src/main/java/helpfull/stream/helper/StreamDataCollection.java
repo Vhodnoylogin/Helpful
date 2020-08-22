@@ -19,8 +19,4 @@ public class StreamDataCollection<T> extends ArrayList<T> {
     public static <R> Supplier<StreamDataCollection<R>> newList() {
         return StreamDataCollection::new;
     }
-
-//    public static <R, L extends Collection<R>> L newList() {
-//        return (L)new StreamDataCollection<>();
-//    }
 }
