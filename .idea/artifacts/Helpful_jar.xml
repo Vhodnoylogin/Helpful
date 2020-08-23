@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Helpful:jar">
+    <output-path>$PROJECT_DIR$/out/</output-path>
+    <root id="archive" name="Helpful.jar">
+      <element id="module-output" name="Helpful" />
+    </root>
+  </artifact>
+</component>
