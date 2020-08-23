@@ -1,6 +1,6 @@
 package run;
 
-import helpfull.stream.builder.StreamBuilder;
+import helpful.stream.builder.StreamBuilder;
 
 import java.util.Arrays;
 import java.util.List;

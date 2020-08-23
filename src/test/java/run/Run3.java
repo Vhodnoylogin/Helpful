@@ -1,7 +1,7 @@
 package run;
 
-import helpfull.simplification.CompareFunction;
-import helpfull.tree.Tree;
+import helpful.simplification.CompareFunction;
+import helpful.tree.Tree;
 
 public class Run3 {
     public static void main(String[] args) {
